@@ -2,32 +2,31 @@
 	<div id="all">
 			<!--点击后弹出的灰色蒙版以及注册界面-->
 			<div>
-				<img src="../assets/close.png" id="close1" onclick="CloseButton(this)" />
+				<img src="../assets/close.png" id="close1" @click="closeRegister" />
 				<table>
 					<tr>
 						<td>
-							<input type="text" id="membername" name="membername" placeholder="用户名">
+							<input type="text" id="newusername" v-model="username" placeholder="用户名">
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<input type="password" id="password" name="password" placeholder="请输入密码">
+							<input type="password" id="newpassword" v-model="password" placeholder="请输入密码">
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<input type="password" id="password" name="password" placeholder="请输入密码"> 
+							<input type="text" id="mailbox" v-model="mailbox" placeholder="邮箱">
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<input type="text" id="mailbox" name="mailbox" placeholder="邮箱">
+							<p v-show="showTip">{{tip}}</p>
 						</td>
 					</tr>
 					<tr>
 						<th>
-							<!-- <input type="button" name="register" value="" autofocus="autofocus" style=" height:35px;background:url(img/register.png) no-repeat" onclick()="confirm()"><br/> -->
-							<button @click="loginclick"></button>
+							<button class="register" @click="register"></button>
 						</th>
 					</tr>
 				</table>
@@ -37,9 +36,40 @@
 
 <script>
 	export default{
-		name:'register',
+		data(){
+			return{
+				username: '',
+				password: '',
+				mailbox: '',
+				tip: '',
+				showTip: false
+			}
+		},
+		props:['registerShow'],
 		methods:{
-
+			register(){
+				if(this.newusername == "" || this.newpassword ==""){
+					this.showTip = true;
+					this.tip = "请输入用户名与密码";
+				}else{
+					let data = {'username':this.newusername,'password':this.newpassword}
+					this.$http.post('',data).then((res)=>{
+						console.log(res);
+						if(res.data == 'ok'){
+							this.showTip = true;
+							this.tip = "注册成功";
+							this.username = '';
+							this.password = '';
+							setTimeout(function(){
+								this.$router.push('home')
+							}.bind(this),1000);
+						}
+					})
+				}
+			},
+			closeRegister(){
+				this.$emit('Rclose');
+			}
 		}
 	}
 </script>
@@ -98,7 +128,7 @@
 	cursor: pointer;
 }
 
-#all button{
+#all .register{
 	background-image: url(../assets/register.png);
 	height: 35px;
 	width: 200px;

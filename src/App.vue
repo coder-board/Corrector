@@ -8,20 +8,18 @@
       <div class="entrance">
         <span>进入文档</span>
       </div>
-      <!-- <editor></editor> -->
+      <router-view class="r-view"></router-view>
     </div>
   </div>
 </template>
 
 <script>
   import header from './components/header.vue';
-  import Editor from './components/editor.vue';
 
   export default {
     name: 'app',
     components: {
-      'v-header': header,
-      'Editor': Editor
+      'v-header': header
     }
   };
 </script>
@@ -64,5 +62,8 @@ body{
 .entrance span{
    border-bottom: 4px solid #11A586;
 }
-
+.r-view{
+  margin: 0;
+  padding: 0;
+}
 </style>

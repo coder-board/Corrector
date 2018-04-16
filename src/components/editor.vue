@@ -1,5 +1,5 @@
 <template>
-	<div id="editor" style="text-align: left"></div>
+	<div id="editor" style="text-align: left;" class="view"></div>
 	<!-- <button v-on:click="getContent">查看内容</button> -->
 </template>
 
@@ -27,3 +27,10 @@
 		}
 	}
 </script>
+
+<style>
+	.view{
+		margin-top: -250px;
+		z-index:-10;
+	}
+</style>

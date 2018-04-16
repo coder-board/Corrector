@@ -6,14 +6,17 @@
 			    <div class="text col-lg-4 col-md-4"> <span class="col-lg-4 col-md-4">一键纠错的在线协作文档</span></div>
 			    <nav class="navbar nav-default col-lg-4 col-md-4">
                      <ul class="nav navbar-nav">
-                     	<li style="font-size:20px;" ><a href="" @click.prevent="showDetail">登录</a></li>
-                     	<li style="font-size:20px;" ><a href="" @click.prevent="showDetail">注册</a></li>
+                     	<li style="font-size:20px;" ><a href="" @click.prevent="showLogin">登录</a></li>
+                     	<li style="font-size:20px;" ><a href="" @click.prevent="showRegister">注册</a></li>
                      	<li style="font-size:40px;top:-2px;" ><a href="">···</a></li>
                      </ul>
 			    </nav>
 			</div>
-			<div v-show="detailShow" class="detail">
-				<register></register>
+			<div v-show="loginShow" class="detail">
+				<login v-on:Lclose="closeLogin"></login>
+			</div>
+			<div v-show="registerShow" class="detail">
+				<register v-on:Rclose="closeRegitser"></register>
 			</div>
 		</div>
 	</div>
@@ -30,12 +33,25 @@ export default {
 	},
 	data(){
 		return {
-			detailShow:false
+			loginShow:false,
+			registerShow:false,
+			showTip: false
 		};
 	},
 	methods: {
-		showDetail(){
-			this.detailShow = true;
+		showLogin(){
+			this.registerShow = false;
+			this.loginShow = true;
+		},
+		showRegister(){
+			this.loginShow = false;
+			this.registerShow = true;
+		},
+		closeLogin(){
+			this.loginShow = false;
+		},
+		closeRegitser(){
+			this.registerShow = false;
 		}
 	}
 }

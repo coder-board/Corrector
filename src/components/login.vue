@@ -2,28 +2,31 @@
 	<div id="all">
 			<!--点击后弹出的灰色蒙版以及登录界面-->
 			<div id="logindiv">
-				<img src="../assets/close.png" id="close1" onclick="CloseButton(this)" />
+				<img src="../assets/close.png" id="close1" @click="closeLogin" />
 				<table>
 					<tr>
 						<td>
-							<input type="text" id="mailbox" name="mailbox" placeholder="请输入注册邮箱">
+							<input type="text" id="username" v-model="username" placeholder="请输入用户名">
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<input type="password" id="password" name="password" placeholder="请输入密码" >
+							<input type="password" id="password" v-model="password" placeholder="请输入密码" >
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p v-show="showTip">{{tip}}</p>
 						</td>
 					</tr>
 					<tr>
 						<th>
-							<!-- <input type="submit" name="load" value="" autofocus="autofocus" style=" height:35px;background:url(../assets/load.png)" onclick="loginclick()"><br/> -->
-							<button @click="loginclick"></button>
+							<button class="login" @click="login"></button>
 						</th>
 					</tr>
 					<tr>
 						<td>
 							<a href="#">《找回密码</a>
-							<a href="javascript:;" onclick="jump(0)">《注册</a>
 						</td>
 					</tr>
 				</table>
@@ -32,11 +35,50 @@
 </template>
 
 <script>
+import {setCookie,getCookie} from '../../static/js/cookie.js';
 	export default{
-		name:'login',
+		data(){
+			return {
+				username: '',
+				password: '',
+				tip: '',
+				showTip: false
+			}
+		},
+		props:['loginShow'],
+		mounted(){
+			if(getCookie('username')){
+				this.$router.push('/home');
+			}
+		},
 		methods:{
-			loginclick(){
-
+			login(){
+				if(this.username == ""||this.password == ""){
+					this.showTip = true;
+					this.tip = "请输入用户名与密码";
+				}
+				else{
+					let data = {'username':this.username,'password':this.password}
+					//接口请求
+					this.$http.post('',data).then((res)=>{
+						console.log(res);
+						if(res.data == -1){
+							this.showTip = true;
+							this.tip = "用户不存在";
+						}else if(res.data == 0){
+							this.showTip = true;
+							this.tip = "密码错误";
+						}else{
+							setCookie('username',this.username,1000*60);
+							setTimeout(function(){
+								this.$router.push('home')
+							}.bind(this),1000);
+						}
+					})
+				}
+			},
+			closeLogin(){
+				this.$emit('Lclose');
 			}
 		}
 	}
@@ -96,7 +138,7 @@
 	cursor: pointer;
 }
 
-#all button{
+#all .login{
 	background-image: url(../assets/load.png);
 	height: 35px;
 	width: 200px;
