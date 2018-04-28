@@ -48,7 +48,7 @@ import {setCookie,getCookie} from '../../static/js/cookie.js';
 		props:['loginShow'],
 		mounted(){
 			if(getCookie('username')){
-				this.$router.push('/home');
+				this.$router.push('/editor');
 			}
 		},
 		methods:{
@@ -71,7 +71,7 @@ import {setCookie,getCookie} from '../../static/js/cookie.js';
 						}else{
 							setCookie('username',this.username,1000*60);
 							setTimeout(function(){
-								this.$router.push('home')
+								this.$router.push('/editor')
 							}.bind(this),1000);
 						}
 					})

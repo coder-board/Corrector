@@ -61,7 +61,7 @@
 							this.username = '';
 							this.password = '';
 							setTimeout(function(){
-								this.$router.push('home')
+								this.$router.push('/editor')
 							}.bind(this),1000);
 						}
 					})
