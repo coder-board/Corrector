@@ -4,7 +4,7 @@
 			<div id="editor" style="text-align: left;" class="view"></div>
 			<div class="correct-area">
 				<div id="banner"><img src="../assets/logo1.png"></div>
-				<textarea id="correct" readonly="readonly"></textarea>
+				<div id="corrector"></div>
 			</div>
 		</div>
 		<div class="correct-bar">
@@ -13,7 +13,7 @@
 				<option>英文</option>
 				<option>印尼语</option>
 			</select>
-			<button class="correct" id="correctClick">一键纠错</button>
+			<button class="Btn-correct" id="correctClick">一键纠错</button>
 			<button class="clear" id="clear">清除内容</button>
 		</div>
 	</div>
@@ -36,31 +36,59 @@
 		},
 		mounted(){
 			var editor = new E('#editor');
-			editor.customConfig.onchange = (html) =>{
-				$.ajax({
-					type:'POST',
-					url:'',
-					data:{},
-					dataType:"json",
-					success:function(data){
-						$('#correct').text(data);
+			const data = {
+				text:"I love you.",
+				wrongs:[
+					{
+						word:'love',
+						corrects:[
+							"my",
+							"me"
+						],
+						index: 2
+					},
+					{
+						word: 'you',
+						corrects: [
+							"my",
+							"me"
+						],
+						index: 7
 					}
+				]
+			}
+			function correct(){
+				let texts = [];
+				let index = 0;
+				data.wrongs.sort((value1, value2) => {
+					return value1.index > value2.index;
+				}).forEach(value => {
+					texts.push(data.text.substring(index, value.index));
+					texts.push('<span data-word="' + value.corrects + '">');
+					texts.push(value.word);
+					texts.push('</span>');
+					index = value.index + value.word.length;
 				});
-			};
-			editor.customConfig.onchangeTimeout = 1500;
-			editor.customConfig.pasteFilterStyle = false;
-			editor.customConfig.pasteIgnoreImg = true;
-			editor.customConfig.pasteTextHandle = function (content) {
-        		return content;
-    		}
-			editor.create();
+				texts.push(data.text.substr(index));
+				$('#corrector')[0].innerHTML = texts.join('');
+			}
 
+			let span = undefined;
+
+			$('#corrector').delegate("span","click",function(){
+				if (span)span.className = '';
+				this.className = 'span-show';
+				span = this;
+			});
+
+
+			editor.create();
 			document.getElementById('clear').addEventListener('click',function(){
 				editor.txt.clear();
 			});
 
 			document.getElementById('correctClick').addEventListener('click',function(){
-
+				correct();
 			})
 		}
 	}
@@ -106,11 +134,34 @@
 		float: right;
 		margin:17px auto; 
 	}
-	#correct{
+	#corrector{
 		width: 100%;
 		height: 85%;
 		outline: none;
 		align-self: flex-end;
+		background-color: white;
+
+
+	}
+
+	#corrector span {
+		text-decoration: wavy underline red; 
+		cursor: pointer;
+		position: relative;
+	}
+
+	#corrector span::before{
+		content: attr(data-word);
+		display: none;
+		position: absolute;
+		top: 100%;
+		background-color: white;
+		border: 1px solid black;
+		left: 0px;
+	}
+
+	#corrector span.span-show::before {
+		display: block;
 	}
 
 	.correct-bar{
@@ -119,7 +170,7 @@
 		margin-left: -39%;
 	}
 
-	.correct-bar .clear , .correct{
+	.correct-bar .clear , .Btn-correct{
 		float: right;
 		display: inline-block;
 		width: 80px;

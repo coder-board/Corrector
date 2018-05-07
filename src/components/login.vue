@@ -47,6 +47,7 @@ import {setCookie,getCookie} from '../../static/js/cookie.js';
 		},
 		props:['loginShow'],
 		mounted(){
+
 			if(getCookie('username')){
 				this.$router.push('/editor');
 			}
@@ -64,14 +65,18 @@ import {setCookie,getCookie} from '../../static/js/cookie.js';
 						console.log(res);
 						if(res.data == -1){
 							this.showTip = true;
-							this.tip = "用户不存在";
+							this.tip = "用户不存在!";
 						}else if(res.data == 0){
 							this.showTip = true;
-							this.tip = "密码错误";
+							this.tip = "密码错误!";
 						}else{
+							this.showTip = true;
+							this.tip = "登录成功!";
 							setCookie('username',this.username,1000*60);
 							setTimeout(function(){
-								this.$router.push('/editor')
+								this.$emit('Lclose');
+								this.$router.push('/editor');
+								this.$emit('Switch');
 							}.bind(this),1000);
 						}
 					})

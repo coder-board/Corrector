@@ -61,6 +61,7 @@
 							this.username = '';
 							this.password = '';
 							setTimeout(function(){
+								this.$emit('Rclose');
 								this.$router.push('/editor')
 							}.bind(this),1000);
 						}

@@ -5,9 +5,14 @@
 				<div class="logo col-lg-4 col-md-4"><img src="../assets/logo1.png"></div>
 			    <div class="text col-lg-4 col-md-4"> <span class="col-lg-4 col-md-4">一键纠错的在线协作文档</span></div>
 			    <nav class="navbar nav-default col-lg-4 col-md-4">
-                     <ul class="nav navbar-nav">
+                     <ul class="nav navbar-nav" v-on:Switch="switchStatus" v-show="!loginStatus">
                      	<li style="font-size:20px;" ><a href="" @click.prevent="showLogin">登录</a></li>
                      	<li style="font-size:20px;" ><a href="" @click.prevent="showRegister">注册</a></li>
+                     	<li style="font-size:40px;top:-2px;" ><a href="">···</a></li>
+                     </ul>
+                     <ul class="nav navbar-nav" v-on:Switch="switchStatus" v-show="loginStatus">
+                     	<li style="font-size:20px;" ><a href="">你好,username</a></li>
+                     	<li style="font-size:20px;" ><a href="">注销</a></li>
                      	<li style="font-size:40px;top:-2px;" ><a href="">···</a></li>
                      </ul>
 			    </nav>
@@ -35,7 +40,8 @@ export default {
 		return {
 			loginShow:false,
 			registerShow:false,
-			showTip: false
+			showTip: false,
+			loginStatus:false
 		};
 	},
 	methods: {
@@ -52,6 +58,9 @@ export default {
 		},
 		closeRegitser(){
 			this.registerShow = false;
+		},
+		switchStatus(){
+			this.loginStatus = true;
 		}
 	}
 }
