@@ -36,28 +36,28 @@
 		},
 		mounted(){
 			var editor = new E('#editor');
-			const data = {
-				text:"I love you.",
-				wrongs:[
-					{
-						word:'love',
-						corrects:[
-							"my",
-							"me"
-						],
-						index: 2
-					},
-					{
-						word: 'you',
-						corrects: [
-							"my",
-							"me"
-						],
-						index: 7
-					}
-				]
-			}
-			function correct(){
+			// const data = {
+			// 	text:"I love you.",
+			// 	wrongs:[
+			// 		{
+			// 			word:'love',
+			// 			corrects:[
+			// 				"my",
+			// 				"me"
+			// 			],
+			// 			index: 2
+			// 		},
+			// 		{
+			// 			word: 'you',
+			// 			corrects: [
+			// 				"my",
+			// 				"me"
+			// 			],
+			// 			index: 7
+			// 		}
+			// 	]
+			// }
+			function correct(data){
 				let texts = [];
 				let index = 0;
 				data.wrongs.sort((value1, value2) => {
@@ -88,8 +88,20 @@
 			});
 
 			document.getElementById('correctClick').addEventListener('click',function(){
-				correct();
-			})
+				$.ajax({
+					type:'POST',
+					url:'',
+					data:{
+						text:editor.txt.text()
+					},
+					success:function(data){
+						correct(data);
+					},
+					error:function(err){
+						console.log(err);
+					}
+				});
+			});
 		}
 	}
 </script>
@@ -140,8 +152,6 @@
 		outline: none;
 		align-self: flex-end;
 		background-color: white;
-
-
 	}
 
 	#corrector span {

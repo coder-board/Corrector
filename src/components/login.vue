@@ -77,6 +77,7 @@ import {setCookie,getCookie} from '../../static/js/cookie.js';
 								this.$emit('Lclose');
 								this.$router.push('/editor');
 								this.$emit('Switch');
+								this.$emit('getName');
 							}.bind(this),1000);
 						}
 					})

@@ -14,7 +14,8 @@
 		name: 'home'
 	}
 </script>
-<style type="text/css">
+<style>
+
 .content{
   width: 100%;
   height:auto;

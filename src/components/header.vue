@@ -11,14 +11,14 @@
                      	<li style="font-size:40px;top:-2px;" ><a href="">···</a></li>
                      </ul>
                      <ul class="nav navbar-nav" v-on:Switch="switchStatus" v-show="loginStatus">
-                     	<li style="font-size:20px;" ><a href="">你好,username</a></li>
+                     	<li style="font-size:20px;" ><a href="">你好,{{username}}</a></li>
                      	<li style="font-size:20px;" ><a href="">注销</a></li>
                      	<li style="font-size:40px;top:-2px;" ><a href="">···</a></li>
                      </ul>
 			    </nav>
 			</div>
 			<div v-show="loginShow" class="detail">
-				<login v-on:Lclose="closeLogin"></login>
+				<login v-on:Lclose="closeLogin" v-on:GetName="getName"></login>
 			</div>
 			<div v-show="registerShow" class="detail">
 				<register v-on:Rclose="closeRegitser"></register>
@@ -41,7 +41,8 @@ export default {
 			loginShow:false,
 			registerShow:false,
 			showTip: false,
-			loginStatus:false
+			loginStatus:false,
+			username:'Invoker'
 		};
 	},
 	methods: {
@@ -61,12 +62,16 @@ export default {
 		},
 		switchStatus(){
 			this.loginStatus = true;
+		},
+		getName(){
+			this.username = username;
 		}
 	}
 }
 </script>
 
-<style type="text/css">
+<style>
+
 .container{
 	padding: 0;
 	margin:0;
