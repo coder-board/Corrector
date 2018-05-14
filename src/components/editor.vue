@@ -1,18 +1,13 @@
 <template>
 	<div class="content">
 		<div class="main">
-			<div id="editor" style="text-align: left;" class="view"></div>
+			<div id="editor" style="text-align: left;" class="view" spellcheck="false"></div>
 			<div class="correct-area">
 				<div id="banner"><img src="../assets/logo1.png"></div>
 				<div id="corrector"></div>
 			</div>
 		</div>
 		<div class="correct-bar">
-			<select id="language">
-				<option>简体中文</option>
-				<option>英文</option>
-				<option>印尼语</option>
-			</select>
 			<button class="Btn-correct" id="correctClick">一键纠错</button>
 			<button class="clear" id="clear">清除内容</button>
 		</div>
@@ -115,6 +110,7 @@
 	  align-items: center;
 	  justify-content: center;
 	  margin-top: 12%;
+	  text-decoration:none;
 	}
  	.main{
  		width: 90%;
@@ -152,6 +148,7 @@
 		outline: none;
 		align-self: flex-end;
 		background-color: white;
+		text-decoration:none;
 	}
 
 	#corrector span {
@@ -196,16 +193,5 @@
 		outline: none;
 		color: white;
 		border: 1px;
-	}
-
-	#language{
-		width: 90px;
-		height: 38px;
-		margin-left:-8px;
-		margin-top: 5px;
-		font-size: 15px;
-		line-height: 35px; 
-		outline: none;
-		border-radius: 5px;
 	}
 </style>
